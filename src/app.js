@@ -186,6 +186,7 @@
   stageFrame.innerHTML = cmpHTML(G[0], `${PAIRS[G[0]].titulo}, ${PAIRS[G[0]].emp}`) + '<div class="stage__wipe"></div>';
   initCmp(stageFrame);
   const stageCmp = $("[data-cmp]", stageFrame);
+  const stageItems = $$(".stage__item", stageList);
   $$("img", stageCmp).forEach((im) => im.removeAttribute("loading"));
   const capHTML = (i) => {
     const d = PAIRS[G[i]];
@@ -457,24 +458,28 @@
   const zones = $$("[data-nav]");
   const chapters = $$("[data-chapter]"), rail = $("#rail");
   let lastY = window.scrollY, curChap = "";
+  /* Posições das seções guardadas; recalculadas só ao redimensionar ou quando o layout muda. */
+  let zoneBox = [], chapBox = [], docMax = 1;
+  const absTop = (el) => el.getBoundingClientRect().top + window.scrollY;
+  function measure() {
+    zoneBox = zones.map((z) => { const t = absTop(z); return [t, t + z.offsetHeight, z.dataset.nav]; });
+    chapBox = chapters.map((c) => [absTop(c), c]);
+    docMax = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+  }
+  const zoneAt = (y) => { for (const [t, b, n] of zoneBox) if (t <= y && b > y) return n; return "solid"; };
   function onScroll() {
     const y = window.scrollY;
-    let mode = "clear";
-    if (y > 24) for (const z of zones) { const r = z.getBoundingClientRect(); if (r.top <= 34 && r.bottom > 34) { mode = z.dataset.nav; break; } }
-    ["solid", "dark", "turq", "los"].forEach((m) => nav.classList.toggle("is-" + m, mode === m));
+    const mode = y > 24 ? zoneAt(y + 34) : "clear";
+    if (mode !== onScroll._mode) { ["solid", "dark", "turq", "los"].forEach((m) => nav.classList.toggle("is-" + m, mode === m)); onScroll._mode = mode; }
     const goingDown = y > lastY + 4, goingUp = y < lastY - 4;
     if (goingDown && y > 640 && caseEl.hidden) nav.classList.add("is-hidden");
     else if (goingUp || y < 640) nav.classList.remove("is-hidden");
     lastY = y;
-    const max = document.documentElement.scrollHeight - innerHeight;
-    const prog = max > 0 ? y / max : 0;
+    const prog = y / docMax;
     roofs.forEach((r, i) => r.classList.toggle("on", prog > i / 3 + 0.015 || prog > 0.985));
-    let c = chapters[0];
-    for (const s of chapters) if (s.getBoundingClientRect().top < innerHeight * 0.5) c = s;
-    const mid = innerHeight / 2;
-    let back = "solid";
-    for (const z of zones) { const r = z.getBoundingClientRect(); if (r.top <= mid && r.bottom > mid) { back = z.dataset.nav; break; } }
-    rail.classList.toggle("is-inv", back !== "solid");
+    rail.classList.toggle("is-inv", zoneAt(y + innerHeight / 2) !== "solid");
+    let c = chapBox.length ? chapBox[0][1] : null;
+    for (const [t, el] of chapBox) if (t < y + innerHeight * 0.5) c = el;
     if (c && c.dataset.chapter !== curChap) {
       curChap = c.dataset.chapter;
       rail.classList.toggle("is-off", curChap === "00");
@@ -485,7 +490,12 @@
       $$(".nav__links a").forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + c.id));
     }
   }
-  window.addEventListener("scroll", onScroll, { passive: true });
+  let scrollRaf = 0;
+  const onScrollRaf = () => { if (!scrollRaf) scrollRaf = requestAnimationFrame(() => { scrollRaf = 0; onScroll(); if (window.__mcta) window.__mcta(); }); };
+  measure();
+  if ("ResizeObserver" in window) { let mr = 0; new ResizeObserver(() => { cancelAnimationFrame(mr); mr = requestAnimationFrame(() => { measure(); onScroll(); }); }).observe(document.body); }
+  window.addEventListener("load", () => { measure(); onScroll(); });
+  window.addEventListener("scroll", onScrollRaf, { passive: true });
   onScroll();
 
   const drawerNav = $("#drawerNav"), menuBtn = $("#menuBtn");
@@ -758,11 +768,13 @@
 
   /* ---------------- Botão fixo no celular ---------------- */
   const mcta = $("#mcta");
+  const contatoEl = $("#contato");
   const mctaCheck = () => {
-    const c = $("#contato").getBoundingClientRect();
-    mcta.classList.toggle("on", window.scrollY > innerHeight * 0.9 && c.top > innerHeight * 0.6 && lb.hidden && caseEl.hidden);
+    const y = window.scrollY, ct = absTop(contatoEl);
+    mcta.classList.toggle("on", y > innerHeight * 0.9 && ct - y > innerHeight * 0.6 && lb.hidden && caseEl.hidden);
   };
-  window.addEventListener("scroll", mctaCheck, { passive: true });
+  let mctaT = 0;
+  window.__mcta = () => { const now = performance.now(); if (now - mctaT > 250) { mctaT = now; mctaCheck(); } };
   mctaCheck();
 
   /* ---------------- Manifesto ---------------- */
@@ -786,6 +798,7 @@
   }
 
   if (!MOTION) {
+    const ld = $("#loader"); if (ld) ld.remove();
     stepsPath();
     $("#ruler").style.setProperty("--v", "87%");
     $("#idxVal").textContent = "87";
@@ -803,24 +816,18 @@
     gsap.ticker.lagSmoothing(0);
   }
 
-  /* Pré-carregamento: os três telhados sobem e a cortina abre. */
-  let seen = false;
-  try { seen = sessionStorage.getItem("ag-intro") === "1"; sessionStorage.setItem("ag-intro", "1"); } catch (e) { /* armazenamento indisponível */ }
+  /* Entrada: os telhados e o nome sobem em CSS; aqui a cortina abre e o herói entra. */
+  const loader = $("#loader");
   const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
-  if (!seen) {
-    const loader = document.createElement("div");
-    loader.className = "loader";
-    loader.setAttribute("aria-hidden", "true");
-    loader.innerHTML = `<div class="loader__in"><svg class="sym" viewBox="0 0 300 250"><path class="r" d="M0 250V125l100 50v75z"/><path class="r" d="M100 250V63l100 50v137z"/><path class="r" d="M200 250V0l100 50v200z"/></svg><div class="loader__word"><span>ALBERT</span><span>GIL</span></div></div><span class="loader__pct num">000</span>`;
-    document.body.appendChild(loader);
-    const pct = $(".loader__pct", loader), o = { v: 0 };
+  let seen = !loader;
+  if (loader) {
+    loader.style.animation = "none";
+    const pct = $("#loaderPct"), o = { v: 0 };
     intro
-      .from($$(".r", loader), { scaleY: 0, duration: 0.55, stagger: 0.16, ease: "power4.out" })
-      .from($$(".loader__word span", loader), { yPercent: 110, duration: 0.6, stagger: 0.08 }, 0.25)
       .to(o, { v: 100, duration: 1.0, ease: "power2.inOut", onUpdate: () => (pct.textContent = String(Math.round(o.v)).padStart(3, "0")) }, 0)
-      .to(loader, { yPercent: -100, duration: 0.85, ease: "expo.inOut", onComplete: () => loader.remove() }, 1.05);
+      .to(loader, { yPercent: -100, duration: 0.85, ease: "expo.inOut", onComplete: () => loader.remove() }, 1.1);
   }
-  const t0 = seen ? 0 : 1.35;
+  const t0 = seen ? 0 : 1.4;
   const heroSplit = window.SplitText ? SplitText.create("#heroTitle", { type: "lines", mask: "lines", linesClass: "hl" }) : null;
   if (heroSplit) intro.from(heroSplit.lines, { yPercent: 110, duration: 1.1, stagger: 0.09 }, t0);
   intro
@@ -859,9 +866,11 @@
   const track = $("#marquee");
   let mx = 0, dir = 1, boost = 0;
   if (window.__lenis) window.__lenis.on("scroll", (l) => { if (l.velocity) { dir = l.velocity > 0 ? 1 : -1; boost = Math.min(Math.abs(l.velocity) * 0.6, 14); } });
+  let half = track.scrollWidth / 2, mqVisible = true;
+  if ("ResizeObserver" in window) new ResizeObserver(() => (half = track.scrollWidth / 2)).observe(track);
+  if ("IntersectionObserver" in window) new IntersectionObserver((es) => (mqVisible = es[0].isIntersecting)).observe(track);
   gsap.ticker.add(() => {
-    const half = track.scrollWidth / 2;
-    if (!half) return;
+    if (!half || !mqVisible) return;
     mx -= (0.6 + boost) * dir;
     boost *= 0.92;
     if (mx <= -half) mx += half;
@@ -886,8 +895,8 @@
   gsap.ticker.add((t, dt) => {
     if (!autoOn || !stageInView || stageHover || stageBusy || !caseEl.hidden || document.hidden) return;
     elapsed += dt;
-    const item = $$(".stage__item", stageList)[stageCur];
-    if (item) item.style.setProperty("--p", Math.min(1, elapsed / AUTO).toFixed(3));
+    const item = stageItems[stageCur], pv = Math.min(1, elapsed / AUTO).toFixed(2);
+    if (item && item._p !== pv) { item._p = pv; item.style.setProperty("--p", pv); }
     if (elapsed >= AUTO) showStage(stageCur + 1);
   });
 
