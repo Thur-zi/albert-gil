@@ -471,7 +471,7 @@
 
   $("#tl").innerHTML = window.AG_TIMELINE.map((t, i) => `
     <div class="tl__i"><span class="tl__y num">${t.ano}</span><span class="tl__t">${esc(t.t)}</span><span class="tl__d">${esc(t.d)}</span>
-      <span class="tl__bar" style="--h:${36 + i * 30}px"></span></div>`).join("");
+      <span class="tl__bar" style="--h:${36 + i * 30}px;--rise:30px"></span></div>`).join("");
   $("#quotes").innerHTML = window.AG_QUOTES.map((q) => `
     <blockquote class="quote" style="margin:0"><p>“${esc(q.q)}”</p><footer><b>${esc(q.who)}</b><span>${esc(q.ctx)}</span></footer></blockquote>`).join("");
 
@@ -542,17 +542,27 @@
 
   /* ---------------- Serviços ---------------- */
   let svcPref = null;
-  $("#services").innerHTML = window.AG_SERVICES.map((v) => `
-    <article class="svc">
-      <span class="svc__tag">${esc(v.tag)}</span>
+  $("#services").innerHTML = window.AG_SERVICES.map((v, i) => `
+    <article class="svc" tabindex="0" aria-label="${esc(v.nome)}">
+      <div class="svc__top"><span class="svc__n">${String(i + 1).padStart(2, "0")}</span><span class="svc__tag">${esc(v.tag)}</span></div>
       <h3>${esc(v.nome)}</h3>
-      <p>${esc(v.para)}</p>
-      <ul>${v.entrega.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>
-      <p class="svc__proof">${esc(v.prova)}</p>
-      <button class="svc__cta" data-svc="${v.id}">Quero conversar sobre isto <svg><use href="#arrow"/></svg></button>
+      <p class="svc__para">${esc(v.para)}</p>
+      <div class="svc__swap">
+        <span class="svc__plus" aria-hidden="true">O que inclui <i></i></span>
+        <div class="svc__stat"><b class="num">${esc(v.n)}</b><span>${esc(v.nl)}</span></div>
+        <ul class="svc__inc">${v.entrega.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>
+      </div>
+      <button class="svc__cta" data-svc="${v.id}">Conversar sobre isto <svg><use href="#arrow"/></svg></button>
     </article>`).join("");
+  $$(".svc").forEach((c) => {
+    c.addEventListener("pointerenter", (e) => e.pointerType === "mouse" && c.classList.add("open"));
+    c.addEventListener("pointerleave", (e) => e.pointerType === "mouse" && c.classList.remove("open"));
+  });
   $("#services").addEventListener("click", (e) => {
     const b = e.target.closest("[data-svc]");
+    const card = e.target.closest(".svc");
+    /* No toque não há hover: tocar no cartão alterna entre o número e o que está incluído */
+    if (!b && card && e.pointerType !== "mouse") { $$(".svc.open").forEach((c) => c !== card && c.classList.remove("open")); card.classList.toggle("open"); return; }
     if (!b) return;
     b.blur();
     svcPref = b.dataset.svc;
@@ -924,7 +934,7 @@
     if (elapsed >= AUTO) showStage(stageCur + 1);
   });
 
-  gsap.from(".svc", { y: 40, opacity: 0, duration: 0.8, stagger: 0.07, ease: "power3.out", scrollTrigger: { trigger: "#services", start: "top 82%", once: true } });
+  gsap.from(".svc", { y: 40, opacity: 0, duration: 0.8, stagger: 0.07, ease: "power3.out", clearProps: "transform,opacity", scrollTrigger: { trigger: "#services", start: "top 82%", once: true } });
   gsap.from(".partners li", { y: 12, opacity: 0, duration: 0.5, stagger: 0.05, scrollTrigger: { trigger: ".partners", start: "top 92%", once: true } });
   ScrollTrigger.create({ trigger: "#caseView", start: "top 75%", once: true, onEnter: () => {
     gsap.from($$("#caseView .pbar i"), { scaleX: 0, duration: 1.1, stagger: 0.05, ease: "expo.out" });
