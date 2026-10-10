@@ -36,8 +36,8 @@
   const STATES = new Set([...allCities].map((c) => UF[c]).filter(Boolean));
   const bcs = P.flatMap((p) => p.empresas.filter((e) => e.bc).map((e) => e.bc)).sort((a, b) => a - b);
   const BC_MED = bcs.length ? (bcs.length % 2 ? bcs[(bcs.length - 1) / 2] : (bcs[bcs.length / 2 - 1] + bcs[bcs.length / 2]) / 2) : 0;
-  let TOP = { g: 0 };
-  P.forEach((p) => p.empresas.forEach((e) => { if (counts(e) && e.g > TOP.g) TOP = { ...e, prog: p }; }));
+  const gs = P.flatMap((p) => (p.semTotal ? [] : p.empresas.filter(counts).map((e) => e.g))).sort((a, b) => a - b);
+  const G_MED = gs.length % 2 ? gs[(gs.length - 1) / 2] : (gs[gs.length / 2 - 1] + gs[gs.length / 2]) / 2;
 
   /* ---------------- Render: hero e resultados ---------------- */
   $("#stripGain").textContent = "R$ " + nf0.format(Math.round(GRAND / 1e6)) + " mi";
@@ -49,10 +49,28 @@
   setBig(GRAND);
   $("#bigNote").textContent = `Soma de ${withTotal.length} programas com resultado financeiro consolidado, entre ${Math.min(...withTotal.map((p) => p.ano))} e ${Math.max(...withTotal.map((p) => p.ano))}. Valores projetados ficam fora da conta.`;
 
-  const maxT = withTotal[0].total;
-  $("#bars").innerHTML = withTotal.map((p) => `
+  /* Quando um programa vale mais que o dobro do segundo, ele vira destaque à parte
+     e as barras dos demais ficam na escala entre si. */
+  const featured = withTotal.length > 1 && withTotal[0].total > withTotal[1].total * 2 ? withTotal[0] : null;
+  const rest = featured ? withTotal.slice(1) : withTotal;
+  const maxT = rest[0].total;
+  if (featured) {
+    const fc = featured.empresas.filter((e) => e.g && !e.p).sort((a, b) => b.g - a.g);
+    const top3 = fc.slice(0, 3), fmax = top3[0].g;
+    $("#featProg").innerHTML = `
+      <div class="feat" data-prog="${featured.id}" tabindex="0" role="button" aria-label="Abrir ${esc(featured.nome)}">
+        <span class="feat__tag">Maior resultado · ${Math.round((featured.total / GRAND) * 100)}% do total</span>
+        <b class="feat__val num"><small>R$</small>${nf1.format(featured.total / 1e6)}<i> mi</i></b>
+        <span class="feat__name">${esc(featured.nome)}</span>
+        <span class="feat__meta">${esc(featured.anoLabel)} · ${esc(featured.parceiro)} · ${featured.e} empresas</span>
+        <ul class="feat__co">${top3.map((e) => `<li><span>${esc(e.n)}<small>${esc(e.s || "")}</small></span><em>${brl(e.g)}</em><i style="--w:${((e.g / fmax) * 100).toFixed(1)}%"></i></li>`).join("")}</ul>
+        <span class="feat__go">Ver as ${featured.e} empresas do programa <svg><use href="#arrow"/></svg></span>
+      </div>`;
+    $("#barsLabel").textContent = "Demais programas";
+  }
+  $("#bars").innerHTML = rest.map((p) => `
     <li data-prog="${p.id}" tabindex="0" role="button" aria-label="Abrir ${esc(p.nome)}">
-      <span class="bars__name">${esc(p.nome)}<small>${esc(p.anoLabel)} · ${esc(p.local)}</small></span>
+      <span class="bars__name">${esc(p.nome)}<small>${esc(p.anoLabel)} · ${esc(p.local)} · ${p.e} ${p.e === 1 ? "empresa" : "empresas"}</small></span>
       <span class="bars__val">${brl(p.total)}</span>
       <span class="bars__track"><span class="bars__fill" style="--w:${((p.total / maxT) * 100).toFixed(2)}%"></span></span>
     </li>`).join("");
@@ -61,7 +79,7 @@
     ["Escala", COMPANIES, 0, "", "", `empresas nos ${P.length} programas desta página`],
     ["Benefício/custo", BC_MED, 0, "", "<i>×</i>", `retorno mediano em ${bcs.length} empresas com o dado, de ${nfBC.format(bcs[0])}× a ${nf0.format(bcs[bcs.length - 1])}×`],
     ["Desperdício", 60, 0, "−", "<i>%</i>", "de atividades sem valor agregado, em média, na turma de BH e Lafaiete"],
-    ["Recorde", TOP.g / 1e6, 1, '<small style="font-size:.45em;margin-right:.15em">R$</small>', "<i> mi</i>", `de ganho anual numa única empresa: ${esc(TOP.n)}, ${esc(TOP.prog.local.split(" (")[0])}`],
+    ["Por empresa", G_MED / 1e3, 0, '<small style="font-size:.45em;margin-right:.15em">R$</small>', "<i> mil</i>", `de ganho anual mediano, em ${gs.length} empresas com o valor medido`],
   ];
   const fmtK = (v, d) => (d ? nf1.format(v) : nf0.format(Math.round(v)));
   $("#kpis").innerHTML = KPIS.map(([l, v, d, pre, suf, t]) =>
@@ -90,7 +108,7 @@
         <span class="row__y">${esc(p.anoLabel)}</span>
         <span class="row__t">${esc(p.nome)}<small>${esc(p.parceiro)}</small></span>
         <span class="row__l">${esc(p.local)}</span>
-        <span class="row__e">${p.e}<small>empresas</small></span>
+        <span class="row__e">${p.e}<small>${p.e === 1 ? "empresa" : "empresas"}</small></span>
         <span class="row__g">${p.total ? brl(p.total) : "—"}<small>${p.total ? "ganho anual" : "sem total"}</small></span>
         ${arrowSvg}
       </button></li>`).join("") : '<li class="index__empty">Nenhum programa neste filtro.</li>';
@@ -330,6 +348,10 @@
   document.addEventListener("click", (e) => {
     const t = e.target.closest("[data-prog]");
     if (t && !caseEl.contains(t)) openCase(t.dataset.prog, t);
+  });
+  $("#featProg").addEventListener("keydown", (e) => {
+    const t = e.target.closest("[data-prog]");
+    if (t && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openCase(t.dataset.prog, t); }
   });
   $("#bars").addEventListener("keydown", (e) => {
     const t = e.target.closest("[data-prog]");
@@ -854,6 +876,8 @@
   /* Número grande e barras */
   const o = { v: 0 };
   gsap.to(o, { v: GRAND, duration: 2.2, ease: "power3.out", onUpdate: () => setBig(o.v), scrollTrigger: { trigger: "#bigGain", start: "top 85%", once: true } });
+  gsap.from(".feat", { y: 30, opacity: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: "#featProg", start: "top 85%", once: true } });
+  gsap.from(".feat__co i", { scaleX: 0, transformOrigin: "left", duration: 1.2, stagger: 0.1, delay: 0.3, ease: "expo.out", scrollTrigger: { trigger: "#featProg", start: "top 85%", once: true } });
   gsap.from(".bars__fill", { scaleX: 0, duration: 1.3, ease: "expo.out", stagger: 0.05, scrollTrigger: { trigger: "#bars", start: "top 80%", once: true } });
   $$(".kv").forEach((el) => {
     const v = +el.dataset.v, d = +el.dataset.d, o2 = { n: 0 };

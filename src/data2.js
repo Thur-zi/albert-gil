@@ -8,7 +8,7 @@ window.AG_SERVICES = [
     nome: "Diagnóstico de perdas",
     para: "Para quem sabe que tem dinheiro parado na operação, mas não sabe onde.",
     entrega: ["Visita ao chão de fábrica e mapa do fluxo de valor", "Cronoanálise e separação do que agrega valor", "Lista de oportunidades priorizada por ganho estimado"],
-    prova: "Numa única turma em Patos de Minas, o diagnóstico levantou 229 oportunidades.",
+    prova: "Na Delta Industrial, a cronoanálise expôs o tempo sem valor e o projeto cortou 95% dele.",
   },
   {
     id: "implantacao", tag: "Consultoria direta",
@@ -21,7 +21,7 @@ window.AG_SERVICES = [
     id: "programas", tag: "Instituições",
     nome: "Programas para grupos de empresas",
     para: "Para SEBRAE, federações, sindicatos e prefeituras que querem levar o Lean a uma região ou cadeia.",
-    entrega: ["Turmas de 2 a 311 empresas, cerca de 82 h por ciclo", "Capacitação em sala e projeto no posto de trabalho", "Relatório consolidado com o ganho de cada empresa"],
+    entrega: ["Turmas de 2 a 45 empresas, cerca de 82 h por ciclo", "Capacitação em sala e projeto no posto de trabalho", "Relatório consolidado com o ganho de cada empresa"],
     prova: "Coordenou equipes de consultores em 21 programas e 6 estados, com ganho medido em cada empresa.",
   },
   {

@@ -219,7 +219,7 @@ button { font: inherit; color: inherit; }
 .hero__strip li:first-child { border-left: 0; padding-left: 0; }
 .hero__strip strong { font-family: var(--f-display); font-weight: 800; font-variation-settings: "wdth" 62; font-stretch: 62%; font-size: clamp(1.7rem, 3vw, 2.7rem); line-height: 1; color: var(--white); }
 .hero__strip strong i { font-style: normal; color: var(--kaizen); }
-.hero__strip span { font-family: var(--f-mono); font-weight: 600; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; opacity: .75; }
+.hero__strip span { font-family: var(--f-mono); font-weight: 600; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; opacity: .88; }
 
 /* ---------- Seções ---------- */
 section { position: relative; }
@@ -256,6 +256,23 @@ section { position: relative; }
 .res__cap { margin: 18px 0 10px; font-size: 1.15rem; max-width: 30ch; }
 .res__note { font-size: 14.5px; color: var(--ink-soft); max-width: 44ch; line-height: 1.55; margin: 0; padding-left: 14px; border-left: 2px solid var(--kaizen); }
 .res__chart { grid-column: 7 / span 6; }
+.feat { background: var(--graphite); color: var(--paper); padding: 26px 26px 22px; margin-bottom: 34px; cursor: pointer; display: grid; gap: 6px; position: relative; border-top: 4px solid var(--kaizen); transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+.feat:hover, .feat:focus-visible { transform: translateY(-3px); box-shadow: 0 18px 40px -20px rgba(28,35,38,.6); }
+.feat__tag { font-family: var(--f-mono); font-weight: 600; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--kaizen); }
+.feat__val { font-family: var(--f-display); font-weight: 800; font-variation-settings: "wdth" 62; font-stretch: 62%; font-size: clamp(3.4rem, 6vw, 5.2rem); line-height: .9; color: var(--white); margin-top: 6px; }
+.feat__val small { font-size: .38em; font-weight: 500; color: var(--kaizen); vertical-align: 1.2em; margin-right: .1em; }
+.feat__val i { font-style: normal; font-size: .6em; color: var(--kaizen); }
+.feat__name { font-family: var(--f-display); font-weight: 750; font-variation-settings: "wdth" 108; font-size: 19px; line-height: 1.2; margin-top: 4px; }
+.feat__meta { font-size: 14px; color: rgba(243,241,236,.65); }
+.feat__co { list-style: none; margin: 14px 0 6px; padding: 0; display: grid; gap: 10px; }
+.feat__co li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: end; }
+.feat__co span { font-size: 15px; font-weight: 600; min-width: 0; }
+.feat__co small { font-weight: 400; color: rgba(243,241,236,.6); margin-left: 8px; font-size: 13px; }
+.feat__co em { font-style: normal; font-family: var(--f-num); font-weight: 650; font-variation-settings: "wdth" 85; font-size: 16px; color: var(--kaizen); white-space: nowrap; }
+.feat__co i { grid-column: 1 / -1; display: block; height: 6px; width: var(--w); background: var(--kaizen); opacity: .85; }
+.feat__go { margin-top: 10px; font-family: var(--f-mono); font-weight: 600; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; display: inline-flex; gap: 8px; align-items: center; }
+.feat__go svg { width: 12px; height: 12px; transition: transform .3s var(--ease); }
+.feat:hover .feat__go svg { transform: translateX(4px); }
 .bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
 .bars li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 16px; padding: 14px 0; border-top: 1px solid var(--line); cursor: pointer; }
 .bars li:last-child { border-bottom: 1px solid var(--line); }
@@ -272,7 +289,7 @@ section { position: relative; }
 .kpi b i { font-style: normal; color: var(--turq-deep); }
 .kpi > span { color: var(--ink-soft); font-size: 15px; }
 .kpi b i { font-size: .62em; margin-left: .06em; }
-.kpi > .label { color: var(--ink); opacity: .7; font-size: 11px; }
+.kpi > .label { color: var(--ink); opacity: .85; font-size: 12px; }
 
 /* ---------- Faixa de clientes ---------- */
 .marquee { background: var(--graphite); color: var(--paper); overflow: hidden; padding-block: 34px; border-block: 1px solid var(--line-inv); }
@@ -288,7 +305,7 @@ section { position: relative; }
 .chip[aria-pressed="true"] { background: var(--graphite); border-color: var(--graphite); color: var(--paper); }
 .chip .c { opacity: .6; margin-left: 6px; }
 .filters__sort { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-.filters__sort .label { opacity: .6; font-size: 11px; }
+.filters__sort .label { opacity: .75; font-size: 11px; }
 .index { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--ink); }
 .row {
   display: grid; grid-template-columns: 110px minmax(0, 4.2fr) minmax(0, 2.6fr) 90px 150px 40px; gap: 20px; align-items: center;
@@ -913,7 +930,7 @@ input[type="range"].rng { -webkit-appearance: none; appearance: none; width: 100
       <div class="hero__copy">
         <div class="eyebrow label"><span class="rule"></span>Lean · WCM · Excelência operacional</div>
         <h1 class="display" id="heroTitle">Melhoria contínua, <em>um degrau por vez.</em></h1>
-        <p class="hero__p">Consultoria em Lean Manufacturing e WCM para reduzir desperdício, aumentar a produtividade e provar o ganho em reais. Trinta anos de chão de fábrica, da linha da Fiat à direção industrial, e mais de 1.200 empresas atendidas.</p>
+        <p class="hero__p">Consultoria em Lean Manufacturing e WCM para reduzir desperdício, aumentar a produtividade e provar o ganho em reais. Da linha da Fiat à direção industrial.</p>
         <div class="hero__ctas">
           <a class="btn btn--solid" href="#contato">Por onde começar <svg><use href="#arrow"/></svg></a>
           <a class="btn btn--ghost-inv" href="#casos">Ver casos reais <svg><use href="#arrow"/></svg></a>
@@ -921,7 +938,7 @@ input[type="range"].rng { -webkit-appearance: none; appearance: none; width: 100
       </div>
       <figure class="hero__portrait" style="margin:0">
         <img src="img/albert-gil.webp" alt="Retrato de Albert Gil, de terno azul-marinho e gravata azul-clara" width="1122" height="1402" fetchpriority="high">
-        <figcaption class="hero__tag"><svg class="sym" viewBox="0 0 300 250" aria-hidden="true"><use href="#sym" class="r"/></svg><b>Albert Gil</b><span>Diretor industrial · Consultor Lean/WCM</span><small>30 anos de chão de fábrica, de Betim a Limeira</small></figcaption>
+        <figcaption class="hero__tag"><svg class="sym" viewBox="0 0 300 250" aria-hidden="true"><use href="#sym" class="r"/></svg><b>Albert Gil</b><span>Diretor industrial · Consultor Lean/WCM</span><small>Fundador da Albert Gil Lean Consulting</small></figcaption>
       </figure>
     </div>
     <div class="hero__strip">
@@ -966,7 +983,7 @@ input[type="range"].rng { -webkit-appearance: none; appearance: none; width: 100
           <div class="eyebrow label tq"><span class="rule"></span>01 · Resultados</div>
           <h2 class="display h2" data-split>Ganho medido, <em>empresa por empresa.</em></h2>
         </div>
-        <div class="p"><p class="lead">Todo programa termina com o ganho anual calculado pela própria empresa, o custo do projeto e o retorno. Estes são os números consolidados dos relatórios de 2010 a 2024, conferidos documento por documento.</p></div>
+        <div class="p"><p class="lead">Cada programa termina com o ganho anual calculado pela própria empresa, o custo e o retorno. Números conferidos relatório por relatório, de 2010 a 2024.</p></div>
       </div>
       <div class="res">
         <div class="res__big">
@@ -975,7 +992,8 @@ input[type="range"].rng { -webkit-appearance: none; appearance: none; width: 100
           <p class="res__note" id="bigNote">Soma dos programas com resultado financeiro consolidado. Valores projetados ficam fora da conta.</p>
         </div>
         <div class="res__chart">
-          <div class="label" style="display:flex;justify-content:space-between;margin-bottom:12px;opacity:.7"><span>Ganho líquido anual por programa</span><span>R$</span></div>
+          <div id="featProg"></div>
+          <div class="label" style="display:flex;justify-content:space-between;margin-bottom:12px;opacity:.7"><span id="barsLabel">Ganho líquido anual por programa</span><span>R$</span></div>
           <ol class="bars" id="bars"></ol>
         </div>
       </div>
@@ -1006,7 +1024,7 @@ input[type="range"].rng { -webkit-appearance: none; appearance: none; width: 100
           <div class="eyebrow label tq"><span class="rule"></span>03 · Casos em profundidade</div>
           <h2 class="display h2" data-split>Do problema ao resultado, <em>em números.</em></h2>
         </div>
-        <div class="p"><p class="lead">Seis empresas de setores diferentes. Em cada uma: o que estava errado, por que acontecia, o que foi feito e quanto rendeu.</p></div>
+        <div class="p"><p class="lead">Nove empresas, nove setores. Em cada uma: o problema, a causa, o que foi feito e quanto rendeu.</p></div>
       </div>
       <div class="cases">
         <ul class="cases__tabs" id="caseTabs" role="tablist" aria-label="Casos"></ul>
@@ -1022,7 +1040,26 @@ input[type="range"].rng { -webkit-appearance: none; appearance: none; width: 100
 
 
   <!-- SIMULADOR -->
-  <section class="sec" id="simulador" data-chapter="05" data-title="Simulador" data-nav="solid">
+  <section class="sec ba" id="antes-depois" data-chapter="04" data-title="Antes e depois" data-nav="solid">
+    <div class="wrap">
+      <div class="sec__head">
+        <div class="t">
+          <div class="eyebrow label tq"><span class="rule"></span>04 · Antes e depois</div>
+          <h2 class="display h2" data-split>O chão de fábrica <em>conta o resultado.</em></h2>
+        </div>
+        <div class="p"><div class="ba__hint"><i><svg width="14" height="14"><use href="#drag"/></svg></i>Arraste a linha amarela ou escolha outro registro na lista</div></div>
+      </div>
+      <div class="stage" id="stage">
+        <div class="stage__main">
+          <div class="stage__frame" id="stageFrame"></div>
+          <div class="stage__cap" id="stageCap" aria-live="polite"></div>
+        </div>
+        <ol class="stage__list" id="stageList" data-lenis-prevent></ol>
+      </div>
+    </div>
+  </section>
+
+<section class="sec" id="simulador" data-chapter="05" data-title="Simulador" data-nav="solid">
     <div class="wrap">
       <div class="sec__head">
         <div class="t">
@@ -1067,7 +1104,7 @@ input[type="range"].rng { -webkit-appearance: none; appearance: none; width: 100
           <div class="eyebrow label tq"><span class="rule"></span>06 · Programas</div>
           <h2 class="display h2" data-split>Vinte e um programas, <em>um mesmo método.</em></h2>
         </div>
-        <div class="p"><p class="lead">Turmas de 2 a 27 empresas, com SEBRAE, FIEMG, IEL, PROCOMPI, ABDI e Fiat, além de consultoria direta. Abra um programa para ver cada empresa e o que mudou.</p></div>
+        <div class="p"><p class="lead">Turmas de 2 a 45 empresas com SEBRAE, FIEMG, IEL, PROCOMPI, ABDI e Fiat, além de consultoria direta. Abra um programa para ver cada empresa.</p></div>
       </div>
       <div class="filters" role="group" aria-label="Filtrar por setor" id="filters"></div>
       <ol class="index" id="index"></ol>
@@ -1090,24 +1127,6 @@ input[type="range"].rng { -webkit-appearance: none; appearance: none; width: 100
   </section>
 
   <!-- ANTES E DEPOIS -->
-  <section class="sec ba" id="antes-depois" data-chapter="04" data-title="Antes e depois" data-nav="solid">
-    <div class="wrap">
-      <div class="sec__head">
-        <div class="t">
-          <div class="eyebrow label tq"><span class="rule"></span>04 · Antes e depois</div>
-          <h2 class="display h2" data-split>O chão de fábrica <em>conta o resultado.</em></h2>
-        </div>
-        <div class="p"><div class="ba__hint"><i><svg width="14" height="14"><use href="#drag"/></svg></i>Arraste a linha amarela ou escolha outro registro na lista</div></div>
-      </div>
-      <div class="stage" id="stage">
-        <div class="stage__main">
-          <div class="stage__frame" id="stageFrame"></div>
-          <div class="stage__cap" id="stageCap" aria-live="polite"></div>
-        </div>
-        <ol class="stage__list" id="stageList" data-lenis-prevent></ol>
-      </div>
-    </div>
-  </section>
 
   <!-- MÉTODO -->
   <section class="sec on-turq" id="metodo" data-chapter="08" data-title="Método" data-nav="turq">
