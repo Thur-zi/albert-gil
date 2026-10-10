@@ -785,6 +785,7 @@
   $("#stageZoom").addEventListener("click", () => {
     const k = G[stageCur], d = PAIRS[k];
     lbLast = document.activeElement;
+    $("#lbIn").classList.remove("lb__in--img");
     $("#lbIn").innerHTML = cmpHTML(k, `${d.titulo}, ${d.emp}`) + `<div class="lb__cap"><b>${esc(d.emp)} · ${esc(d.titulo)}</b><span>${esc(d.kpi)} · foto de celular feita durante o projeto</span></div>`;
     $$("#lbIn img").forEach((im) => im.removeAttribute("loading"));
     initCmp($("#lbIn"));
@@ -797,6 +798,44 @@
   $("#lbClose").addEventListener("click", lbClose);
   lb.addEventListener("click", (e) => { if (e.target === lb) lbClose(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !lb.hidden) lbClose(); });
+
+  /* ---------------- Registros de campo ---------------- */
+  const FIELD = window.AG_FIELD;
+  const fdSrc = (f) => `img/${f.root ? "" : "campo/"}${f.img}.webp`;
+  const fdHTML = (f, i) => `
+    <button class="fd${f.doc ? " fd--doc" : ""}" data-fd="${i}" aria-label="Ampliar: ${esc(f.t)}, ${esc(f.ano)}">
+      <span class="fd__img"><img src="${fdSrc(f)}" alt="${esc(f.t)} · ${esc(f.lugar)}, ${esc(f.ano)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"><span class="fd__yr">${esc(f.ano)}</span>${f.doc ? `<span class="fd__doc">${esc(f.doc)}</span>` : ""}</span>
+      <span class="fd__cap"><small>${esc(f.lugar)}</small><b>${esc(f.t)}</b><span>${esc(f.d)}</span></span>
+    </button>`;
+  /* Mosaico em colunas montadas aqui (o columns do CSS deixava fotos sem pintar no Chrome):
+     cada item vai para a coluna mais baixa, pela proporção da foto mais a legenda */
+  let fdCols = 0;
+  const fdLayout = () => {
+    const w = $("#field").clientWidth, n = w < 560 ? 2 : w < 900 ? 3 : 4;
+    if (n === fdCols) return;
+    fdCols = n;
+    const cols = Array.from({ length: n }, () => ({ h: 0, html: "" }));
+    FIELD.forEach((f, i) => {
+      const c = cols.reduce((a, b) => (b.h < a.h ? b : a));
+      c.html += fdHTML(f, i);
+      c.h += f.h / f.w + 0.45;
+    });
+    $("#field").innerHTML = cols.map((c) => `<div class="evid__col">${c.html}</div>`).join("");
+  };
+  fdLayout();
+  new ResizeObserver(fdLayout).observe($("#field"));
+  $("#field").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-fd]");
+    if (!b) return;
+    const f = FIELD[+b.dataset.fd];
+    lbLast = b;
+    $("#lbIn").classList.add("lb__in--img");
+    $("#lbIn").innerHTML = `<img class="lb__img" src="${fdSrc(f)}" alt="${esc(f.t)}"><div class="lb__cap"><b>${esc(f.t)} · ${esc(f.ano)}</b><span>${esc(f.lugar)} · ${esc(f.d)}</span></div>`;
+    lb.hidden = false;
+    if (window.__lenis) window.__lenis.stop();
+    $("#lbClose").focus();
+    if (MOTION) gsap.from("#lbIn", { scale: 0.94, opacity: 0, duration: 0.45, ease: "expo.out" });
+  });
 
   /* ---------------- Botão fixo no celular ---------------- */
   const mcta = $("#mcta");
@@ -997,7 +1036,7 @@
   /* Trajetória: a escada cresce da esquerda para a direita */
   gsap.from(".tl__bar", { scaleY: 0, transformOrigin: "50% 100%", duration: 0.9, stagger: 0.09, ease: "expo.out", scrollTrigger: { trigger: "#tl", start: "top 80%", once: true } });
   gsap.from(".tl__y, .tl__t, .tl__d", { opacity: 0, y: 12, duration: 0.6, stagger: 0.03, scrollTrigger: { trigger: "#tl", start: "top 80%", once: true } });
-  gsap.from(".field-photos figure", { clipPath: "inset(0 0 100% 0)", duration: 1.2, stagger: 0.15, ease: "expo.inOut", scrollTrigger: { trigger: ".field-photos", start: "top 82%", once: true } });
+  gsap.from(".fd", { y: 36, opacity: 0, duration: 0.9, stagger: 0.06, ease: "power3.out", clearProps: "transform,opacity", scrollTrigger: { trigger: "#field", start: "top 85%", once: true } });
   gsap.from(".quote", { opacity: 0, y: 30, duration: 0.9, stagger: 0.12, ease: "power3.out", scrollTrigger: { trigger: "#quotes", start: "top 85%", once: true } });
 
   /* Contato: o supersímbolo sobe com a rolagem */

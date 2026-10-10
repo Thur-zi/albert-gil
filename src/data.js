@@ -560,3 +560,19 @@ window.AG_QUOTES = [
   { q: "Agradecemos ao Albert por ter passado todo seu conhecimento e estar sempre à disposição para esclarecer as dúvidas. Agora é conosco, sempre dispostos a buscar a melhoria contínua.", who: "Erominas", ctx: "PROCOMPI Itajubá · 2019" },
   { q: "Sou cliente do Graal Embaixador há 14 anos. De uns meses para cá, tenho observado um ar de renovação nos pratos, tanto na parte visual quanto no sabor.", who: "Vinícius Maranhão", ctx: "Cliente · Restaurante Graal Embaixador · 2016" },
 ];
+
+/* Registros de campo: documentos e fotos originais do arquivo de trabalho. Assinaturas de terceiros foram desfocadas. */
+window.AG_FIELD = [
+  { img: "materia-fiemg-2017", doc: "Na imprensa", w: 710, h: 918, ano: "2017", lugar: "Informativo Acontece na FIEMG", t: "“Capacitação em Produção Enxuta”", d: "Tetum Engenharia e Laticínios Tirolez começam o programa Lean pelo IEL, com a FIEMG Regional Alto Paranaíba.", prog: "procompi-2017" },
+  { img: "certificado-fiat-2010", doc: "Certificado", w: 1400, h: 1082, ano: "2010", lugar: "Betim (MG)", t: "Academia Lean · Universidade Fornecedores Fiat", d: "Tema Qualidade, 24 horas. No mesmo ano foi padrinho de um grupo de fornecedores.", prog: "lean-automotivo" },
+  { img: "treino-petropolis", w: 1600, h: 1000, ano: "2015", lugar: "Petrópolis (RJ)", t: "Abertura do programa com nove empresas", d: "Empresários e equipes na primeira sessão, antes das visitas às fábricas.", prog: "petropolis", root: true },
+  { img: "fiat-concessionaria-vsm", w: 1600, h: 1200, ano: "2013", lugar: "Concessionária Fiat · MG", t: "Fluxo de valor da oficina na parede", d: "Cada post-it é uma etapa do atendimento, com tempo e responsável, montado com a equipe." },
+  { img: "tirolez-gemba", w: 1417, h: 797, ano: "2017", lugar: "Tiros (MG)", t: "No chão da fábrica de queijos", d: "Equipe da Tirolez no projeto que reduziu em 31,7% a perda de massa.", prog: "procompi-2017" },
+  { img: "dinamica-petropolis", w: 1600, h: 1000, ano: "2015", lugar: "Petrópolis (RJ)", t: "Dinâmica de linha de montagem", d: "O desperdício aparece na mesa antes de aparecer na teoria.", prog: "petropolis", root: true },
+  { img: "stola-quadro", w: 1600, h: 1200, ano: "2012", lugar: "Stola do Brasil · Belo Horizonte", t: "Gestão à vista na funilaria", d: "Produção hora a hora, pedido contra realizado, no sistema WCM que ele ajudou a implantar." },
+  { img: "construcao-canteiro", w: 1273, h: 775, ano: "2018", lugar: "Uberlândia (MG)", t: "Reunião de projeto no canteiro", d: "Lean Construction: na RCG, −80% de deslocamento na confecção de lajes.", prog: "lean-construction-2018" },
+  { img: "fiat-concessionaria-sala", w: 1600, h: 1200, ano: "2013", lugar: "Concessionária Fiat · MG", t: "Academia Lean na rede Fiat", d: "Treinamento das equipes de oficina antes do mapeamento do fluxo." },
+  { img: "tirolez-equipe", w: 1600, h: 900, ano: "2017", lugar: "Tiros (MG)", t: "Equipe do projeto Tirolez", d: "Operação, qualidade e liderança no mesmo time.", prog: "procompi-2017" },
+  { img: "itajuba-treino", w: 1280, h: 719, ano: "2019", lugar: "Itajubá (MG)", t: "Treinamento dentro do galpão", d: "PROCOMPI Itajubá: na Invent, +30% de produtividade e −30% de set-up.", prog: "itajuba-2019" },
+  { img: "lavanderia-equipe", w: 1600, h: 1200, ano: "2014", lugar: "Belo Horizonte", t: "Equipe da Lavanderia Santo Antônio", d: "Depois do projeto, a calandra passou a rodar com 3 pessoas em vez de 5.", prog: "bh-lafaiete-2014" },
+];
