@@ -24,7 +24,7 @@
     "Belo Horizonte": "MG", Betim: "MG", "Conselheiro Lafaiete": "MG", "João Monlevade": "MG", "Sete Lagoas": "MG", Ubá: "MG",
     Itajubá: "MG", "Patos de Minas": "MG", Uberlândia: "MG", Uberaba: "MG", Araxá: "MG", "Volta Redonda": "RJ", Petrópolis: "RJ",
     "Nova Friburgo": "RJ", "Duque de Caxias": "RJ", "Rio de Janeiro": "RJ", "Santo André": "SP", "Caxias do Sul": "RS",
-    "São Leopoldo": "RS", Cariacica: "ES", Recife: "PE",
+    "São Leopoldo": "RS", Cariacica: "ES", Recife: "PE", Mauá: "SP", "São Bernardo do Campo": "SP", Diadema: "SP", Ipatinga: "MG",
   };
   const counts = (e) => e.g && !e.p && !e.x;
   const progTotal = (p) => (p.semTotal ? 0 : p.gTotal ?? p.empresas.reduce((s, e) => s + (counts(e) ? e.g : 0), 0));
@@ -251,7 +251,7 @@
     const notes = [];
     if (p.gNota) notes.push(`Ganho do programa: ${p.gNota}.`);
     if (rows.some((e) => e.p)) notes.push("“Projetado” indica ganho previsto pela empresa no fechamento, fora das somas da página.");
-    if (rows.some((e) => e.x)) notes.push("“A validar” indica valor da planilha consolidada ainda sem confirmação, fora das somas da página.");
+    if (rows.some((e) => e.x)) notes.push("Valores sem confirmação documental não são exibidos e ficam fora das somas.");
     if (p.semTotal) notes.push("O relatório deste programa não traz o ganho de todas as empresas, por isso ele não entra na soma geral.");
     notes.push("Fonte: relatório de resultados e planilha consolidada do programa. Valores anuais declarados pelas empresas.");
     const pairs = p.fotos.filter((k) => PAIRS[k]);
@@ -275,7 +275,7 @@
         <tbody>${rows.map((e) => `<tr>
           <td><b>${esc(e.n)}</b>${e.s ? `<small>${esc(e.s)}</small>` : ""}</td>
           <td>${esc(e.r || "—")}</td>
-          ${hasG ? `<td class="n">${e.g ? brl(e.g) + (e.p ? '<span class="proj">projetado</span>' : e.x ? '<span class="proj">a validar</span>' : "") : "—"}</td>` : ""}
+          ${hasG ? `<td class="n">${e.g && !e.x ? brl(e.g) + (e.p ? '<span class="proj">projetado</span>' : "") : "—"}</td>` : ""}
           ${hasBC ? `<td class="n">${e.bc ? nfBC.format(e.bc) + "×" : "—"}</td>` : ""}
         </tr>`).join("")}</tbody>
       </table></div>
@@ -963,6 +963,7 @@
   /* Trajetória: a escada cresce da esquerda para a direita */
   gsap.from(".tl__bar", { scaleY: 0, transformOrigin: "50% 100%", duration: 0.9, stagger: 0.09, ease: "expo.out", scrollTrigger: { trigger: "#tl", start: "top 80%", once: true } });
   gsap.from(".tl__y, .tl__t, .tl__d", { opacity: 0, y: 12, duration: 0.6, stagger: 0.03, scrollTrigger: { trigger: "#tl", start: "top 80%", once: true } });
+  gsap.from(".field-photos figure", { clipPath: "inset(0 0 100% 0)", duration: 1.2, stagger: 0.15, ease: "expo.inOut", scrollTrigger: { trigger: ".field-photos", start: "top 82%", once: true } });
   gsap.from(".quote", { opacity: 0, y: 30, duration: 0.9, stagger: 0.12, ease: "power3.out", scrollTrigger: { trigger: "#quotes", start: "top 85%", once: true } });
 
   /* Contato: o supersímbolo sobe com a rolagem */
