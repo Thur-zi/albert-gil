@@ -22,7 +22,7 @@ window.AG_SERVICES = [
     nome: "Programas para grupos de empresas",
     para: "Para SEBRAE, federações, sindicatos e prefeituras que querem levar o Lean a uma região ou cadeia.",
     entrega: ["Turmas de 2 a 311 empresas, cerca de 82 h por ciclo", "Capacitação em sala e projeto no posto de trabalho", "Relatório consolidado com o ganho de cada empresa"],
-    prova: "21 programas em 6 estados, com centenas de empresas e ganho medido em cada uma.",
+    prova: "Coordenou equipes de consultores em 21 programas e 6 estados, com ganho medido em cada empresa.",
   },
   {
     id: "lideres", tag: "Pessoas",
@@ -107,6 +107,16 @@ window.AG_CASES = [
     kpis: [["20 → 3", "máquinas na célula"], ["20 → 1", "operadores"], ["68,7% → 22,4%", "tempo sem valor"], ["R$ 430 mil", "ganho anual projetado"]],
     chart: { tipo: "pares", titulo: "Setor de buchas, antes e depois", unidade: "", itens: [["Máquinas", 20, 3, "20", "3"], ["Operadores", 20, 1, "20", "1"], ["Tempo sem valor (%)", 68.68, 22.43, "68,7%", "22,4%"]] },
     fotos: [],
+  },
+  {
+    id: "metaldavi", emp: "Metaldavi", setor: "Metalmecânica", lugar: "Caxias do Sul (RS)", ano: "2013–2014", prog: "focem-abdi",
+    titulo: "Um pedido de 600 dobradiças levava dez dias.",
+    problema: "A produção era empurrada em lotes grandes, com estoque entre etapas e fábrica desorganizada.",
+    causa: "Produção empurrada em lotes grandes.",
+    acao: ["5S intermediário e avançado", "Automação de baixo custo nas operações críticas", "Produção puxada pelo pedido"],
+    kpis: [["3,9 h", "para o mesmo lote (eram 10 dias)"], ["−95,8%", "de lead time"], ["43% → 83%", "OEE"]],
+    chart: { tipo: "pares", titulo: "Tempo para produzir 600 dobradiças", unidade: "h", itens: [["Lote de 600 dobradiças", 240, 3.9, "10 dias", "3,9 h"]] },
+    fotos: ["metaldavi-linha"],
   },
   {
     id: "graal", emp: "Restaurante Graal Embaixador", setor: "Restaurante de estrada", lugar: "Volta Redonda (RJ)", ano: "2016", prog: "volta-redonda",

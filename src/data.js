@@ -1,8 +1,7 @@
 /* Base curada do portfólio Albert Gil.
  * Fontes: apresentações de resultados, análises de benefício/custo e planilhas consolidadas dos programas.
  * Valores em R$ são ganhos líquidos anuais declarados pelas empresas ao fim de cada programa.
- * `p:true` marca valor projetado e `x:true` valor sem confirmação documental: os dois ficam fora das somas
- * e o valor não é exibido. `semTotal` indica programa sem o ganho de todas as empresas.
+ * `p:true` marca valor projetado (fora das somas). `semTotal` indica programa sem o ganho de todas as empresas.
  */
 window.AG_SECTORS = {
   ind: "Indústria",
@@ -38,12 +37,12 @@ window.AG_PROGRAMS = [
     nome: "FOCEM Auto · ABDI",
     ano: 2013, anoLabel: "2013–2014",
     parceiro: "ABDI · FOCEM Mercosul · ICE",
-    local: "ABC paulista e Mauá (SP)",
-    cidades: ["Santo André", "Mauá", "São Bernardo do Campo", "Diadema"],
+    local: "Grande ABC e Mauá (SP), Serra Gaúcha (RS)",
+    cidades: ["Santo André", "Mauá", "São Bernardo do Campo", "Diadema", "Caxias do Sul", "São Leopoldo"],
     setores: ["ind"],
-    e: 10,
-    resumo: "Projeto federal de adensamento da cadeia de autopeças do Mercosul (contrato ABDI 11/2013). Albert foi o consultor de 10 pequenas e médias empresas paulistas, de outubro de 2013 a setembro de 2014, e assina os relatórios finais. As empresas projetaram cerca de R$ 1,06 mi de ganho anual.",
-    kpis: [["20 → 3", "máquinas na célula de buchas (MRS)"], ["17% → 89%", "OEE (Alumec)"], ["5S 7% → 95%", "auditoria (Jodeclan)"]],
+    e: 45,
+    resumo: "Projeto federal de adensamento da cadeia de autopeças do Mercosul (contrato ABDI 11/2013) com 45 pequenas e médias empresas em São Paulo e no Rio Grande do Sul. Albert coordenou o projeto, dirigindo a equipe de consultores, e atendeu pessoalmente 10 empresas paulistas, de outubro de 2013 a setembro de 2014.",
+    kpis: [["−55,8%", "NVAA médio"], ["+40,2%", "peças por hora"], ["−78,5%", "tempo de set-up"], ["+33,1%", "OEE"]],
     empresas: [
       { n: "MRS · Cestari Freios", s: "Autopeças · Mauá", g: 430000, p: true, r: "Setor de buchas de 20 máquinas e 20 operadores para célula com 3 máquinas e 1 operador; NVAA de 68,7% para 22,4%" },
       { n: "Alumec", s: "Usinagem · Diadema", g: 170000, p: true, r: "Set-up de 45 para 22 min, OEE de 17% para 89%, novo cliente: Iveco" },
@@ -54,9 +53,11 @@ window.AG_PROGRAMS = [
       { n: "Jodeclan Ferramentaria", s: "São Bernardo do Campo", g: 47000, p: true, r: "Set-up de 65 para 28 min, NVAA de 91% para 21,6%" },
       { n: "Keefer Máquinas e Moldes", s: "São Bernardo do Campo", g: 37000, p: true, r: "Set-up de 42 para 18 min" },
       { n: "Eliu · Grupo Taurus", s: "Ferramentaria · Diadema", g: 37000, p: true, r: "NVAA de 86% para 17%, 5S de 17% para 95%" },
+      { n: "Metaldavi", s: "Metalmecânico · Caxias do Sul", r: "Lote de 600 dobradiças de 10 dias para 3,9 horas (−95,8%), OEE de 43% para 83%, produção puxada" },
+      { n: "Inpel Transmissões Mecânicas", s: "Metalmecânico · São Leopoldo", r: "−46,15% no custo de produção, validado pela controladoria" },
       { n: "Kruth do Brasil", s: "São Bernardo do Campo", r: "Projeto 5S sem evolução: empresa operando a 15% da capacidade" },
     ],
-    fotos: [],
+    fotos: ["metaldavi-linha", "inpel-celula"],
   },
   {
     id: "bh-lafaiete-2014",
@@ -127,7 +128,7 @@ window.AG_PROGRAMS = [
       { n: "Massas Terni", s: "Alimentos", g: 245768, bc: 108.2, r: "Refugo da massa de lasanha −86,6%, retrabalho −88%, 2.376 h de produção liberadas" },
       { n: "Padrão Minas", s: "Comunicação visual", g: 88397, bc: 21.32, r: "Set-up médio −90%, −30% de vinil, 1 pessoa realocada" },
       { n: "Embalex", s: "Embalagens", g: 50219, bc: 28.28, r: "De 157 para 15 passos por trajeto, 3.140 h para 30 h por ano" },
-      { n: "Félix Quality Print", s: "Pintura eletrostática · Sete Lagoas", g: 190872, bc: 18.22, x: true, r: "NVAA −76% (300 para 120 passos), 5S em 95%" },
+      { n: "Félix Quality Print", s: "Pintura eletrostática · Sete Lagoas", g: 190872, bc: 18.22, r: "NVAA −76% (300 para 120 passos), 5S em 95%" },
       { n: "Usifor" },
       { n: "Setor Elétrico" },
     ],
@@ -159,7 +160,7 @@ window.AG_PROGRAMS = [
       { n: "Check Car", g: 85108, bc: 53.28, r: "21% da mão de obra otimizada, kanban de fluxo de veículos" },
       { n: "Cafcar", g: 71424, bc: 44.87, r: "+12% de produtividade com um profissional a menos" },
       { n: "Pachauto", g: 10372, bc: 7.37, r: "130 m² de espaço ocioso recuperado, aluguel −12%" },
-      { n: "Montanha", g: 189222, bc: 72.19, x: true, r: "−27% de deslocamento, −20% de estoque" },
+      { n: "Montanha", g: 189222, bc: 72.19, r: "−27% de deslocamento, −20% de estoque" },
     ],
     fotos: [],
   },
@@ -194,7 +195,7 @@ window.AG_PROGRAMS = [
     cidades: ["João Monlevade"],
     setores: ["ind", "ali", "ser"],
     e: 13,
-    resumo: "Treze empresas do Vale do Aço, de caldeirarias que atendem a siderurgia a uma fábrica de pão de queijo. Quatro meses de projeto, de agosto a novembro, com 36 horas de capacitação.",
+    resumo: "Treze empresas do Vale do Aço, de caldeirarias que atendem a siderurgia a uma fábrica de pão de queijo. Albert coordenou o programa e os consultores de campo: quatro meses de projeto, de agosto a novembro, com 36 horas de capacitação.",
     kpis: [["460 m²", "liberados na Metaltécnica"], ["−87%", "espera por ponte rolante"], ["86%", "nota 5S na JW (meta 80%)"]],
     empresas: [
       { n: "Metaltécnica", s: "Caldeiraria e usinagem", g: 975238, bc: 16.77, r: "Solda de 40 m para 5 m do almoxarifado, −60% a −80% de movimentação, 460 m² liberados" },
@@ -252,7 +253,7 @@ window.AG_PROGRAMS = [
     cidades: ["Petrópolis"],
     setores: ["ind", "ali", "ser"],
     e: 9,
-    resumo: "Nove empresas da serra fluminense, a maioria do polo de moda. Abertura em 24 de agosto de 2015, três sessões coletivas e visitas em cada fábrica até o fechamento, em março de 2016.",
+    resumo: "Nove empresas da serra fluminense, a maioria do polo de moda. Albert coordenou o programa e a equipe de consultores: abertura em 24 de agosto de 2015, três sessões coletivas e visitas em cada fábrica até o fechamento, em março de 2016.",
     kpis: [["32% → 1,6%", "retrabalho (Thiamo)"], ["58%", "do tecido internalizado (Vizoo)"], ["+25%", "produção mensal (Pássaro Livre)"]],
     empresas: [
       { n: "MM Plastic", s: "Injeção plástica", g: 2376677, bc: 191, r: "−50% de NVAA, 5 pessoas realocadas" },
@@ -262,8 +263,8 @@ window.AG_PROGRAMS = [
       { n: "Incisor", s: "Metalurgia · Teresópolis", g: 270954, bc: 12.6, r: "−95% de NVAA, +57% de produtividade" },
       { n: "Thiamo", s: "Malhas e confecção", g: 255794, bc: 19.17, r: "Retrabalho de 32% para 1,6%: custo de R$ 172 mil para R$ 8,6 mil por ano" },
       { n: "Kappauns", s: "Serviço técnico", g: 194354, bc: 9.85, r: "Produtividade dobrada, −67% de retrabalho" },
-      { n: "Pássaro Livre", s: "Malhas", g: 3448651, bc: 154, x: true, r: "Estoque −40%, horas extras zeradas, produção de 23.240 para 29.050 peças/mês" },
-      { n: "Oficina 16", s: "Confecção", g: 2317403, bc: 222, x: true, r: "Estoque de matéria-prima −60% e custos gerais −22%" },
+      { n: "Pássaro Livre", s: "Malhas", g: 3448651, bc: 154, r: "Estoque −40%, horas extras zeradas, produção de 23.240 para 29.050 peças/mês" },
+      { n: "Oficina 16", s: "Confecção", g: 2317403, bc: 222, r: "Estoque de matéria-prima −60% e custos gerais −22%" },
     ],
     fotos: [],
   },
@@ -287,7 +288,7 @@ window.AG_PROGRAMS = [
       { n: "KVG Engenharia", s: "Engenharia", g: 240000, r: "−35% de horas ociosas, −20% de custos diretos" },
       { n: "Vó Alzira", s: "Alimentos", g: 108551, r: "−30% de deslocamento, 35% da mão de obra otimizada" },
       { n: "Laticínios Clarice", s: "Alimentos", g: 66422, r: "+30% de performance, −10% de custos diretos" },
-      { n: "Dental Karisma", g: 101529, x: true, r: "30% da mão de obra otimizada" },
+      { n: "Dental Karisma", g: 101529, r: "30% da mão de obra otimizada" },
       { n: "Rede Construir" },
     ],
     fotos: [],
@@ -364,9 +365,11 @@ window.AG_PROGRAMS = [
     setores: ["ind", "ali", "ser"],
     e: 13,
     resumo: "Programa de competitividade industrial regional do IEL com indústrias de fertilizantes, alimentos, destilarias e serviços.",
-    kpis: [["−99%", "refugo (Santa Clara)"], ["−90%", "retrabalho (Ducks)"], ["−96%", "deslocamento (Sol e Ondas)"]],
+    kpis: [["R$ 215 mi", "ganho líquido anual"], ["−99%", "refugo (Santa Clara)"], ["−96%", "deslocamento (Sol e Ondas)"]],
     empresas: [
-      { n: "Santa Clara", s: "Araxá", g: 6725160, x: true, r: "−99,1% de refugo, +85% de produtividade" },
+      { n: "Destilaria Veredas", s: "Patos de Minas", g: 162000000, r: "+13% de produtividade, quebra de máquina zerada" },
+      { n: "Satis", s: "Araxá", g: 42179443, r: "−86% de deslocamento, produtividade dobrada, −40% de custos diretos, 3 pessoas realocadas" },
+      { n: "Santa Clara", s: "Araxá", g: 6725160, r: "−99,1% de refugo, +85% de produtividade" },
       { n: "Fertitrading", s: "Fertilizantes · Araxá", g: 1910000, r: "−50% de deslocamento, +20% de produtividade" },
       { n: "Marabá", s: "Patos de Minas", g: 1120000, r: "−83% de deslocamento, 2 pessoas realocadas" },
       { n: "Sol e Ondas", s: "Patos de Minas", g: 810000, r: "−96% de deslocamento, +50% de produtividade" },
@@ -491,6 +494,8 @@ window.AG_OTHERS = [
 
 /* Pares de antes e depois, todos com o mesmo recorte e o mesmo tratamento. */
 window.AG_PAIRS = {
+  "metaldavi-linha": { emp: "Metaldavi", lugar: "Caxias do Sul", prog: "focem-abdi", titulo: "Linha de dobradiças", txt: "Produção empurrada virou puxada, com 5S avançado e automação de baixo custo.", kpi: "10 dias → 3,9 h" },
+  "inpel-celula": { emp: "Inpel", lugar: "São Leopoldo", prog: "focem-abdi", titulo: "Célula de usinagem", txt: "Gestão à vista, fluxo e OEE na linha de transmissões mecânicas.", kpi: "−46% no custo" },
   "delta-usinagem": { emp: "Delta Industrial", lugar: "Belo Horizonte", prog: "bh-lafaiete-2014", titulo: "Centro de usinagem", txt: "Faixas no piso, carrinho de ferramentas no ponto de uso e o caminho do operador livre.", kpi: "−95% de NVAA" },
   "delta-fresa": { emp: "Delta Industrial", lugar: "Belo Horizonte", prog: "bh-lafaiete-2014", titulo: "Fresadora", txt: "Painel de ferramentas na parede e área demarcada em volta da máquina.", kpi: "B/C 29×" },
   "lavanderia-galpao": { emp: "Lavanderia Santo Antônio", lugar: "Belo Horizonte", prog: "bh-lafaiete-2014", titulo: "Galpão de lavagem", txt: "Roupa fora do chão, bancadas alinhadas e fluxo da recepção à calandra.", kpi: "Calandra de 5 para 3 pessoas" },
@@ -513,7 +518,7 @@ window.AG_PAIRS = {
 };
 
 /* Ordem curada da galeria. */
-window.AG_GALLERY = ["visual-fachada", "delta-usinagem", "lavanderia-galpao", "metaltecnica-producao", "suporte-bancada", "qualictec-galpao", "dablius-patio", "isotec-bancada", "rcs-ferramentas", "delta-fresa", "jw-almox", "visual-galpao", "causimec-ferramentaria", "suporte-fixadores", "tetum-obra"];
+window.AG_GALLERY = ["visual-fachada", "delta-usinagem", "lavanderia-galpao", "metaltecnica-producao", "suporte-bancada", "qualictec-galpao", "dablius-patio", "isotec-bancada", "rcs-ferramentas", "delta-fresa", "jw-almox", "visual-galpao", "causimec-ferramentaria", "suporte-fixadores", "metaldavi-linha", "tetum-obra", "inpel-celula"];
 
 window.AG_TOOLS = [
   ["5S", "Organização", "Senso de utilização, ordem, limpeza, padronização e disciplina. A base de tudo que vem depois."],
@@ -540,8 +545,8 @@ window.AG_TIMELINE = [
   { ano: "2010", t: "Academia Lean Fiat", d: "Certificado e padrinho de grupo de fornecedores da Fiat." },
   { ano: "2011", t: "Instrutor na Stola", d: "Forma líderes no Sistema de Produção Stola e lidera projetos." },
   { ano: "2012", t: "Consultoria própria", d: "Funda a Albert Gil Lean Consulting e lidera o 5S da Stola." },
-  { ano: "2013", t: "Fiat, CNH e ABDI", d: "Instrutor de fornecedores Fiat/CNH e consultor de 10 empresas no FOCEM." },
-  { ano: "2014", t: "SEBRAE em escala", d: "Turmas em MG e RJ até 2019, de oficinas a laticínios." },
+  { ano: "2013", t: "Fiat, CNH e ABDI", d: "Instrutor de fornecedores Fiat/CNH e coordenador do FOCEM/ABDI, com 45 empresas." },
+  { ano: "2014", t: "SEBRAE em escala", d: "Coordena equipes de consultores em turmas de MG e RJ até 2019." },
   { ano: "2022", t: "Mikro-Stamp", d: "Diretor industrial em Campinas." },
   { ano: "2024", t: "GW Metal", d: "Diretor operacional em Limeira, dez áreas." },
   { ano: "2026", t: "LeanOS", d: "Software para o ganho não regredir." },
